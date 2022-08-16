@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -88,6 +89,11 @@ public class TankMovement
 
         // update our rigidboy with this new rotation
         rigidbody.MoveRotation(rigidbody.rotation * turnRotation); // rotate our rigidbody based on our input.
+    }
+
+    public static implicit operator TankMovement(int v)
+    {
+        throw new NotImplementedException();
     }
 }
 
