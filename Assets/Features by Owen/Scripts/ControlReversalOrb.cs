@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,30 +21,33 @@ namespace OwenLomax
         {
             timer -= Time.deltaTime;
 
-            if(timer < 0)
+            if (timer < 0)
             {
                 timer = timerReset;
+
 
             }
         }
 
         private void OnTriggerEnter(Collider other)
         {
-            ControlReversalTrigger();
-             
+            if (other.gameObject.tag == "Tank")
+            {
+                ControlReversalTrigger(other);
+            }
+
+            if (EventsByOwenLomax.OnControlReversalOrbAction != null)
+            {
+                EventsByOwenLomax.OnControlReversalOrbAction();
+            }
         }
 
-        private void ControlReversalTrigger()
+        private void ControlReversalTrigger(Collider tank)
         {
-            //When something collides with the orb, run this method
-            //Check if a tank has collided with the orb
-            //if()
-            //If so, set the opposite tanks controls to inverse
-            //Else nothing should happen
-            //have it timed to revert back to normal controls after 3 seconds
-            
+            tank.GetComponent<Tank>().tankControls.forward = KeyCode.S;
+            tank.GetComponent<Tank>().tankControls.backwards = KeyCode.W;
+            tank.GetComponent<Tank>().tankControls.left = KeyCode.D;
+            tank.GetComponent<Tank>().tankControls.right = KeyCode.A;
         }
-        
-
     }
 }

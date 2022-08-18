@@ -5,18 +5,44 @@ namespace OwenLomax
 {
     public class BoostPad : MonoBehaviour
     {
-        private void OnTriggerEnter()
+        [SerializeField] private float timer;
+        [SerializeField] private float timerReset = 2;
+
+        private void Start()
         {
-            
+            timer = timerReset;
         }
-        private void BoostPadTrigger()
+
+        private void Update()
         {
-            /* When something collides with the boost pad, we run this method
-             Check if a tank has collided with the boost pad
-             Check what angle the tank collided at
-             If angle is between 0 - 90’, increase tank’s speed to 24
-             Else decrease tank’s speed to 6
-             After 2 seconds, reset the tank's speed to base stat of 12.*/
+            timer -= Time.deltaTime;
+
+            if(timer < 0)
+            {
+                timer = timerReset;
+                
+            }
         }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if(other.gameObject.tag == "Tank")
+            {
+                BoostPadTrigger(other);
+            }
+
+            if(EventsByOwenLomax.OnBoostPadAction != null)
+            {
+                EventsByOwenLomax.OnBoostPadAction();
+            }
+        }
+
+        private void BoostPadTrigger(Collider tank)
+        {
+            if (tank.gameObject.tag == "Tank")
+            {
+                tank.GetComponent<Tank>().tankMovement.speed = 24;
+            }
+        }   
     }
 }
